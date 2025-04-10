@@ -1,6 +1,6 @@
 # 🏐 Placar de Vôlei - App Web + Android
 
-Este é um projeto de placar de vôlei interativo, desenvolvido em HTML/CSS/JS, com suporte para execução em navegadores e dispositivos Android via Capacitor. Ideal para uso offline durante partidas reais.
+Este é um projeto de placar de vôlei interativo, que também pode ser utilizado para outros esportes, desenvolvido em HTML/CSS/JS, com suporte para execução em navegadores e dispositivos Android via Capacitor. Ideal para uso offline durante partidas reais.
 
 ---
 
@@ -83,6 +83,27 @@ keytool -genkey -v -keystore meuapp.keystore -alias meuappkey -keyalg RSA -keysi
 
 - Conecte o celular com modo desenvolvedor ativado
 - Clique em **Run 'app'** no Android Studio
+
+---
+
+## 🔄 Atualizando o projeto no GitHub
+
+Sempre que fizer alterações no projeto:
+
+```bash
+git status                # (opcional) Ver o que mudou
+git add .                 # Adiciona todas as mudanças
+git commit -m "mensagem"  # Descreve a mudança
+git push                  # Envia para o GitHub
+git pull origin main --allow-unrelated-histories #Puxa o que esta no GitHub
+
+```
+
+Atalho para tudo de uma vez:
+
+```bash
+git add . && git commit -m "sua mensagem" && git push
+```
 
 ---
 
