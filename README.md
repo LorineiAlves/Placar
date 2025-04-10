@@ -91,11 +91,11 @@ keytool -genkey -v -keystore meuapp.keystore -alias meuappkey -keyalg RSA -keysi
 Sempre que fizer alterações no projeto:
 
 ```bash
-git status                # (opcional) Ver o que mudou
-git add .                 # Adiciona todas as mudanças
-git commit -m "mensagem"  # Descreve a mudança
-git push                  # Envia para o GitHub
-git pull origin main --allow-unrelated-histories #Puxa o que esta no GitHub
+git status                                          # (opcional) Ver o que mudou
+git add .                                           # Adiciona todas as mudanças
+git commit -m "Commite exemplo"                     # Descreve a mudança
+git push                                            # Envia para o GitHub
+git pull origin main --allow-unrelated-histories    # Trás edições do GitHub
 
 ```
 
@@ -119,13 +119,15 @@ git add . && git commit -m "sua mensagem" && git push
 
 ## 📷 Captura de Tela
 
-*(adicione uma imagem do app em funcionamento aqui)*
+![App rodando](screenshot.png)
+![Ícone App](screenshoticone.png)
+
 
 ---
 
 ## 📌 Autor
 
-**Lorinei** - Analista de Sistemas e desenvolvedor de soluções offline 👨‍💻
+**Lorinei** - Analista de Sistemas e desenvolvedor de soluções 👨‍💻
 
 ---
 
