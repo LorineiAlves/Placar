@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2196f3" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <meta name="theme-color" content="#000000">
+  <title>Placar Vôlei</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* comandos
+    npx cap copy android - Sempre após gravar, deve executar para copiar os arquivos para a pasta Android
+    npx cap sync - Para sincronizar com o Android Studio
+    npx cap open android - Para abrir no Android Studio  
+    */
+
+    body, html {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+   }
+
+
+    .placar {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    .time {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+      transition: background 0.3s;
+      padding: 10px;
+    }
+
+    .time1 {
+      background: #2196f3;
+      color: white;
+    }
+
+    .time2 {
+      background: #f44336;
+      color: white;
+    }
+
+    .ponto {
+      font-size: 28vw; /* TAMANHO GIGANTE! */
+      line-height: 1;
+    }
+
+    .botoes {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .botoes button {
+      font-size: 1.5rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.8);
+      color: black;
+      font-weight: bold;
+    }
+
+    .controle-geral {
+      padding: 10px;
+      text-align: center;
+      background: #333;
+    }
+	
+    .controle-geral {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 10px; /* MENOR espaçamento */
+      background-color: rgba(0, 0, 0, 0.6); /* leve transparência, se quiser mais discreto */
+      font-size: 1rem; /* diminui fonte se quiser */
+      /*position: fixed;*/
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+    }
+
+
+    .dev-credit {
+      font-size: 10px;
+      color: #ccc;
+      font-family: sans-serif;
+    }
+
+
+    .controle-geral button {
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .info-rodape {
+      text-align: center;
+      color: #ccc;
+      font-family: monospace;
+      font-size: 0.7rem;
+      margin: 0 5px;
+      padding-bottom: 8px;
+    }
+
+    .linha-tempo {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 20px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .linha-tempo .emoji {
+      margin-right: 6px;
+      font-size: 20px;
+    }
+
+    .controles-tempo {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .controles-tempo button {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      background-color: #333;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .controles-tempo button:hover {
+      background-color: #555;
+    }
+
+    #relogio-superior {
+      position: absolute;
+      top: calc(env(safe-area-inset-top, 20px) + 10px);
+      right: 20px; /* aumentei aqui pra dar folga */
+      font-size: 1rem;
+      color: white;
+      font-family: monospace;
+      background: transparent;
+      z-index: 99;
+    }
+
+</style>
+</head>
+<body>
+  <div id="relogio-superior"></div>
+  <div class="placar">
+    <div class="time time1" onclick="addPonto('time1')">
+      <div id="ponto1" class="ponto">0</div>
+      <div class="botoes">
+        <button onclick="event.stopPropagation(); removePonto('time1')">-1</button>
+      </div>
+    </div>
+    <div class="time time2" onclick="addPonto('time2')">
+      <div id="ponto2" class="ponto">0</div>
+      <div class="botoes">
+        <button onclick="event.stopPropagation(); removePonto('time2')">-1</button>
+      </div>
+    </div>
+  </div>
+
+	<div class="controle-geral">
+	  <button onclick="resetar()">Resetar Placar</button>
+	  
+    <div class="info-rodape">
+      <div class="linha-tempo">
+        <span><span class="emoji">⏱️</span> <span id="cronometro">00:00</span></span>
+      </div>
+      <div class="controles-tempo">
+        <button onclick="toggleCronometro()">Iniciar/Pausar</button>
+        <button onclick="resetarCronometro()">Zerar</button>
+      </div>
+    </div>
+     
+    <span class="dev-credit">Developed by Lorinei Alves</span>
+
+	</div>
+
+
+  <script>
+    let pontos = {
+      time1: 0,
+      time2: 0
+    };
+
+    function atualizarPlacar() {
+      document.getElementById('ponto1').textContent = pontos.time1;
+      document.getElementById('ponto2').textContent = pontos.time2;
+    }
+
+    function addPonto(time) {
+      pontos[time]++;
+      atualizarPlacar();
+    }
+
+    function removePonto(time) {
+      if (pontos[time] > 0) {
+        pontos[time]--;
+        atualizarPlacar();
+      }
+    }
+
+    function resetar() {
+      pontos.time1 = 0;
+      pontos.time2 = 0;
+      atualizarPlacar();
+    }
+
+    atualizarPlacar();
+  </script>
+  
+   
+  <script>
+  // Permite que o app funcione offline
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(() => {
+      console.log('Service Worker registrado!');
+    });
+  }
+	</script>
+	
+	<script type="module">
+	// import { KeepAwake } from '@capacitor-community/keep-awake';
+
+	// Ativa a tela ligada permanentemente
+	// KeepAwake.keepAwake().catch((err) => console.warn("Falha ao manter acordado:", err));
+  
+	</script>
+
+<script>
+  // Manterm a tela sempre ligada
+  let wakeLock = null;
+
+  async function manterTelaLigada() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        console.log('🔋 Wake Lock ativado!');
+      }
+    } catch (err) {
+      console.error(`Erro ao ativar wake lock: ${err.name}, ${err.message}`);
+    }
+  }
+
+  // Reativa se a aba for recarregada ou foco voltar
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      manterTelaLigada();
+    }
+  });
+
+  manterTelaLigada();
+</script>
+
+<script>
+
+// Cronômetro
+let cronometroSegundos = 0;
+let cronometroAtivo = false;
+let intervaloCronometro;
+
+function formatarCronometro(segundos) {
+  const min = Math.floor(segundos / 60).toString().padStart(2, '0');
+  const sec = (segundos % 60).toString().padStart(2, '0');
+  return `${min}:${sec}`;
+}
+
+function atualizarCronometro() {
+  document.getElementById("cronometro").textContent = formatarCronometro(cronometroSegundos);
+}
+
+function toggleCronometro() {
+  if (cronometroAtivo) {
+    clearInterval(intervaloCronometro);
+  } else {
+    intervaloCronometro = setInterval(() => {
+      cronometroSegundos++;
+      atualizarCronometro();
+    }, 1000);
+  }
+  cronometroAtivo = !cronometroAtivo;
+}
+
+function resetarCronometro() {
+  clearInterval(intervaloCronometro);
+  cronometroSegundos = 0;
+  cronometroAtivo = false;
+  atualizarCronometro();
+}
+
+atualizarCronometro();
+
+</script>
+
+<script>
+  function atualizarRelogioSuperior() {
+    const agora = new Date();
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    document.getElementById("relogio-superior").textContent = `${horas}:${minutos}`;
+  }
+
+  setInterval(atualizarRelogioSuperior, 10000); // Atualiza a cada 10s (não precisa ser de 1 em 1s)
+  atualizarRelogioSuperior();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "appId": "com.lorineiapps.placar",
+  "appName": "Placar",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
