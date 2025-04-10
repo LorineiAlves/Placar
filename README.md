@@ -1,6 +1,6 @@
 # 🏐 Placar de Vôlei - App Web + Android
 
-Este é um projeto de placar de vôlei interativo, desenvolvido em HTML/CSS/JS, com suporte para execução em navegadores e dispositivos Android via Capacitor. Ideal para uso offline durante partidas reais.
+Este é um projeto de placar de vôlei interativo, que também pode ser utilizado para outros esportes, desenvolvido em HTML/CSS/JS, com suporte para execução em navegadores e dispositivos Android via Capacitor. Ideal para uso offline durante partidas reais.
 
 ---
 
