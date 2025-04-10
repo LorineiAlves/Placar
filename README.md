@@ -19,56 +19,68 @@ Este é um projeto de placar de vôlei interativo, desenvolvido em HTML/CSS/JS, 
 
 ### 1. Clonar o repositório
 
-git clone https://github.com/LorineiAlves/Placar.git
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
-
+```
 
 ### 2. Instalar dependências (se necessário)
+
 Se estiver usando npm:
 
+```bash
 npm install
-
+```
 
 ### 3. Instalar o Capacitor
 
+```bash
 npm install @capacitor/core @capacitor/cli
 npx cap init
-
+```
 
 ### 4. Criar a pasta Android
 
+```bash
 npx cap add android
-
+```
 
 ### 5. Copiar os arquivos web para o Android
 
+```bash
 npx cap copy android
-
+```
 
 > ⚠️ Sempre rodar esse comando após mudanças no HTML/CSS/JS
 
 ### 6. Abrir o projeto no Android Studio
 
+```bash
 npx cap open android
-
+```
 
 ### 7. Ajustar o AndroidManifest.xml
+
 Certifique-se que o tema esteja assim:
 
+```xml
 android:theme="@style/AppTheme.NoActionBar"
-
+```
 
 ### 8. Gerar Keystore (opcional, para builds assinadas)
 
+```bash
 keytool -genkey -v -keystore meuapp.keystore -alias meuappkey -keyalg RSA -keysize 2048 -validity 10000
-
+```
 
 ### 9. Gerar APK ou AAB no Android Studio
+
 - Build > Generate Signed Bundle / APK
 - Selecione o keystore
 - Siga os passos até concluir
 
 ### 10. Rodar no dispositivo Android
+
 - Conecte o celular com modo desenvolvedor ativado
 - Clique em **Run 'app'** no Android Studio
 
@@ -91,7 +103,8 @@ keytool -genkey -v -keystore meuapp.keystore -alias meuappkey -keyalg RSA -keysi
 ---
 
 ## 📌 Autor
-**Lorinei** - Analista de Sistemas e desenvolvedor de soluções 👨‍💻
+
+**Lorinei** - Analista de Sistemas e desenvolvedor de soluções offline 👨‍💻
 
 ---
 
